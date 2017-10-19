@@ -23,7 +23,7 @@ json="{
 }"
 
 # post the result to the nanoleaf webhook
-RESULT=$(curl -d "$json" -s "$WERCKER_NANOLEAF_NOTIFIER_URL" --output "$WERCKER_STEP_TEMP"/result.txt -w "%{http_code}")
+RESULT=$(curl -d "$json" -s "$WERCKER_NANOLEAF_NOTIFIER_URL" -H "Content-Type: application/json" --output "$WERCKER_STEP_TEMP"/result.txt -w "%{http_code}")
 cat "$WERCKER_STEP_TEMP/result.txt"
 
 if [ "$RESULT" = "500" ]; then
