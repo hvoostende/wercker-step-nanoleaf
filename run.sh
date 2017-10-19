@@ -25,3 +25,25 @@ json="{
 # post the result to the nanoleaf webhook
 RESULT=$(curl -d "$json" -s "$WERCKER_NANOLEAF_NOTIFIER_URL" --output "$WERCKER_STEP_TEMP"/result.txt -w "%{http_code}")
 cat "$WERCKER_STEP_TEMP/result.txt"
+
+if [ "$RESULT" = "500" ]; then
+  if grep -Fqx "No token" "$WERCKER_STEP_TEMP/result.txt"; then
+    fail "No token is specified."
+  fi
+
+  if grep -Fqx "No hooks" "$WERCKER_STEP_TEMP/result.txt"; then
+    fail "No hook can be found for specified subdomain/token"
+  fi
+
+  if grep -Fqx "Invalid channel specified" "$WERCKER_STEP_TEMP/result.txt"; then
+    fail "Could not find specified channel for subdomain/token."
+  fi
+
+  if grep -Fqx "No text specified" "$WERCKER_STEP_TEMP/result.txt"; then
+    fail "No text specified."
+  fi
+fi
+
+if [ "$RESULT" = "404" ]; then
+  fail "Subdomain or token not found."
+fi
