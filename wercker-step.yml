@@ -1,0 +1,14 @@
+name: nanoleaf-notifier
+version: 0.0.1
+description: Posts wercker build/deploy status to a nanoleaf aurora.
+keywords:
+  - notification
+  - webhook
+  - nanoleaf
+properties:
+  url:
+    type: string
+    required: true
+  project:
+    type: string
+    required: true
