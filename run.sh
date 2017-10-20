@@ -17,10 +17,7 @@ if [ "$WERCKER_RESULT" = "failed" ]; then
 fi
 
 # construct the json
-json="{
-    \"project\": \"$WERCKER_NANOLEAF_NOTIFIER_PROJECT\",
-    \"color\":\"$WERCKER_NANOLEAF_NOTIFIER_COLOR\"
-}"
+json="{\"project\":\"$WERCKER_NANOLEAF_NOTIFIER_PROJECT\",\"color\":\"$COLOR\"}"
 
 # post the result to the nanoleaf webhook
 RESULT=$(curl -d "$json" -s "$WERCKER_NANOLEAF_NOTIFIER_URL" -H "Content-Type: application/json" --output "$WERCKER_STEP_TEMP"/result.txt -w "%{http_code}")
