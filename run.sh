@@ -6,14 +6,14 @@ if [ -z "$WERCKER_NANOLEAF_NOTIFIER_URL" ]; then
   fail "Please provide a Nanoleaf URL"
 fi
 
-export COLOR="passed"
+COLOR="passed"
 
 if [ -z "$WERCKER_RESULT" ]; then
-  export COLOR="deploying"
+  COLOR="deploying"
 fi
 
 if [ "$WERCKER_RESULT" = "failed" ]; then
-  export COLOR="failed"
+  COLOR="failed"
 fi
 
 # construct the json
