@@ -22,8 +22,8 @@ fi
 
 # construct the json
 json="{
-    \"project\": \"$WERCKER_NANOLEAF_NOTIFIER_PROJECT\",
-    \"color\":\"$COLOR\"
+    \"project\": \"PP2\",
+    \"color\":\"Deploying\"
 }"
 
 # post the result to the nanoleaf webhook
