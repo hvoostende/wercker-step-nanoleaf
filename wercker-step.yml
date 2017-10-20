@@ -1,5 +1,5 @@
 name: nanoleaf-notifier
-version: 0.2.0
+version: 0.2.1
 description: Posts wercker build/deploy status to a nanoleaf aurora.
 keywords:
   - notification
