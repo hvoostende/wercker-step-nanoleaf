@@ -9,10 +9,12 @@ fi
 export COLOR="passed"
 
 if [ -z "$WERCKER_RESULT" ]; then
+  echo "WERCKER RESULT: PASSED"
   export COLOR="deploying"
 fi
 
 if [ "$WERCKER_RESULT" = "failed" ]; then
+  echo "WERCKER RESULT: FAILED"
   export COLOR="failed"
 fi
 
@@ -23,31 +25,33 @@ fi
 # construct the json
 json="{
     \"project\": \"PP2\",
-    \"color\":\"Deploying\"
+    \"color\":\"$COLOR\"
 }"
 
 # post the result to the nanoleaf webhook
-RESULT=$(curl -d "$json" "$WERCKER_NANOLEAF_NOTIFIER_URL" -H "Content-Type: application/json" --output "$WERCKER_STEP_TEMP"/result.txt -w "%{http_code}")
-cat "$WERCKER_STEP_TEMP/result.txt"
+echo "Post the result to the nanoleaf webhook"
+curl -d "$json" "$WERCKER_NANOLEAF_NOTIFIER_URL" -H "Content-Type: application/json"
+echo "Posted!"
+# cat "$WERCKER_STEP_TEMP/result.txt"
 
-if [ "$RESULT" = "500" ]; then
-  if grep -Fqx "No token" "$WERCKER_STEP_TEMP/result.txt"; then
-    fail "No token is specified."
-  fi
+# if [ "$RESULT" = "500" ]; then
+#   if grep -Fqx "No token" "$WERCKER_STEP_TEMP/result.txt"; then
+#     fail "No token is specified."
+#   fi
 
-  if grep -Fqx "No hooks" "$WERCKER_STEP_TEMP/result.txt"; then
-    fail "No hook can be found for specified subdomain/token"
-  fi
+#   if grep -Fqx "No hooks" "$WERCKER_STEP_TEMP/result.txt"; then
+#     fail "No hook can be found for specified subdomain/token"
+#   fi
 
-  if grep -Fqx "Invalid channel specified" "$WERCKER_STEP_TEMP/result.txt"; then
-    fail "Could not find specified channel for subdomain/token."
-  fi
+#   if grep -Fqx "Invalid channel specified" "$WERCKER_STEP_TEMP/result.txt"; then
+#     fail "Could not find specified channel for subdomain/token."
+#   fi
 
-  if grep -Fqx "No text specified" "$WERCKER_STEP_TEMP/result.txt"; then
-    fail "No text specified."
-  fi
-fi
+#   if grep -Fqx "No text specified" "$WERCKER_STEP_TEMP/result.txt"; then
+#     fail "No text specified."
+#   fi
+# fi
 
-if [ "$RESULT" = "404" ]; then
-  fail "Subdomain or token not found."
-fi
+# if [ "$RESULT" = "404" ]; then
+#   fail "Subdomain or token not found."
+# fi
