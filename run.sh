@@ -30,7 +30,8 @@ json="{
 
 # post the result to the nanoleaf webhook
 echo "Post the result to the nanoleaf webhook"
-curl -d "$json" "$WERCKER_NANOLEAF_NOTIFIER_URL" -H "Content-Type: application/json"
+echo "[$json] [$WERCKER_NANOLEAF_NOTIFIER_URL] Content-Type: application/json"
+curl -d "$json" "$WERCKER_NANOLEAF_NOTIFIER_URL" -H "Content-Type: application/json" -v
 echo "Posted!"
 # cat "$WERCKER_STEP_TEMP/result.txt"
 
